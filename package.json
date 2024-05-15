@@ -1,0 +1,27 @@
+{
+  "name": "protectednotes-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Santhosh1933/ProtectedNotes-Backend.git"
+  },
+  "author": "santhosh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Santhosh1933/ProtectedNotes-Backend/issues"
+  },
+  "homepage": "https://github.com/Santhosh1933/ProtectedNotes-Backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.3.4",
+    "nodemon": "^3.1.0"
+  }
+}
