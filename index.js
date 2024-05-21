@@ -39,7 +39,6 @@ app.post("/create-route", async (req, res) => {
 app.get("/edit-notes", async (req, res) => {
   try {
     const { route, editPassword } = req.query;
-
     const existingRoute = await routeModel.findOne({ route, editPassword });
 
     if (!existingRoute) {
@@ -126,12 +125,48 @@ app.get("/notes", async (req, res) => {
     // Fetch notes if access is granted
     const notes = await notesModel.findOne({ route });
     if (!notes) {
-      return res.status(402).json({ error: "Notes not found." });
+      return res.status(200).json({
+        route:route,
+        notes: [
+          {
+            tabName: "Welcome Note",
+            content: "There is No Content on your Page",
+          },
+        ],
+      });
     }
 
     return res.status(200).json(notes);
   } catch (error) {
     console.error("Error fetching notes:", error);
     return res.status(500).json({ error: "Internal server error." });
+  }
+});
+
+app.delete('/notes', async (req, res) => {
+  try {
+    const { route, editPassword } = req.query;
+
+    // Check if the route exists
+    const existingRoute = await routeModel.findOne({ route });
+    if (!existingRoute) {
+      return res.status(404).json({ error: 'Route not found.' });
+    }
+
+    // Check if editPassword matches
+    if (existingRoute.editPassword !== editPassword) {
+      return res.status(401).json({ error: 'Unauthorized.' });
+    }
+
+    // Delete the route
+    await routeModel.deleteOne({ route });
+
+    // Delete the notes
+    await notesModel.deleteOne({ route });
+
+    return res.status(200).json({ message: 'Route and notes deleted successfully.' });
+  } catch (error) {
+    console.error('Error deleting route and notes:', error);
+    return res.status(500).json({ error: 'Internal server error.' });
   }
 });
